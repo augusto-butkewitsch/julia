@@ -57,6 +57,7 @@ public class Mandelbrot : MonoBehaviour
     }
 
     // Update is called once per frame
+    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -84,10 +85,15 @@ public class Mandelbrot : MonoBehaviour
             double scaleFactor = Mathf.Pow(1.1f, Input.mouseScrollDelta.y);
             double mouseX = Input.mousePosition.x / Screen.width * width + rStart;
             double mouseY = Input.mousePosition.y / Screen.height * height + iStart;
-            width /= scaleFactor;
-            height /= scaleFactor;
-            rStart = mouseX - width / 2.0;
-            iStart = mouseY - height / 2.0;
+
+            double newWidth = width / scaleFactor;
+            double newHeight = height / scaleFactor;
+
+            rStart = mouseX - (mouseX - rStart) * (newWidth / width);
+            iStart = mouseY - (mouseY - iStart) * (newHeight / height);
+
+            width = newWidth;
+            height = newHeight;
 
             RunMandelbrot();
         }
